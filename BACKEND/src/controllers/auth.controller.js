@@ -1,4 +1,4 @@
-import cloudinaryConfig from "../config/cloudinary.js";
+import cloudinary from "../config/cloudinary.js";
 import { genarateErrors } from "../constants/message.js";
 import { authModel } from "../models/auth.model.js";
 import { comparePassword, genarateHashpassword } from "../utils/bcrypt.js";
@@ -103,7 +103,7 @@ const logoutUser = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   try {
-    console.log("client data----------------------", req.body);
+    // console.log("client data----------------------", req.body);
     const { profilePic } = req?.body;
     if (!profilePic) {
       return res.status(400).json({
@@ -112,11 +112,8 @@ const updateProfile = async (req, res) => {
       })
     }
     const id = req.user._id;
-    const uploadFile = await cloudinaryConfig.uploader.upload(profilePic, {
-      // folder: "profiles",        // optional
-      // resource_type: "image"     // make sure it's treated as image
-    }); // upload image in cloudinary
-    console.log("uploaded file -------------------------", uploadFile.secure_url);
+    const uploadFile = await cloudinary.uploader.upload(profilePic); // upload image in cloudinary
+    // console.log("uploaded file -------------------------", uploadFile);
     const updateUser = await authModel.findByIdAndUpdate(id, { profilePic: uploadFile.secure_url }, { new: true });
     res.status(200).json({
       success: true,
@@ -124,6 +121,7 @@ const updateProfile = async (req, res) => {
       result: updateUser
     })
   } catch (error) {
+    console.error("updateProfile error:", error); // full object
     res.status(500).json(genarateErrors("Server Error", error));
   }
 }

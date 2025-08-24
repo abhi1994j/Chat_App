@@ -73,9 +73,9 @@ const useAuthStore = create((set) => ({
       const response = await axiosInstance.put(apiPaths.AUTH.UPDATEPROFILE, data
         // headers: { "Content-Type": "multipart/form-data" }, // ✅ important
       );
-      console.log(response);
-      toast.success("Profile Image updated Successfully")
+      // console.log(response);
       set({ authUser: response?.data })
+      toast.success("Profile Image updated Successfully")
     } catch (error) {
       console.log(`Error in UpdateProfile function : ${error?.response?.data?.message}`);
       toast.error(error?.response?.data?.message);
