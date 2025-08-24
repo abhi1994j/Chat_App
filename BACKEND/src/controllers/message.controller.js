@@ -13,7 +13,7 @@ const getUsersForSiderbars = async (req, res) => {
     })
 
   } catch (error) {
-    res.status(500).json(genarateErrors("Server Error", err));
+    res.status(500).json(genarateErrors("Server Error", error));
   }
 
 }
@@ -33,7 +33,7 @@ const getMessages = async (req, res) => {
       result: allMessages
     })
   } catch (error) {
-    res.status(500).json(genarateErrors("Server Error", err));
+    res.status(500).json(genarateErrors("Server Error", error));
   }
 }
 
@@ -59,7 +59,7 @@ const sendMessages = async (req, res) => {
       result: newMessages
     });
   } catch (error) {
-    res.status(500).json(genarateErrors("Server Error", err));
+    res.status(500).json(genarateErrors("Server Error", error));
   }
 }
 

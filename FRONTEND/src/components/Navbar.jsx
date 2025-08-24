@@ -19,10 +19,10 @@ const Navbar = () => {
         {/* Settings Button */}
         {authUser ? (
           <nav className="hidden lg:flex items-center gap-4 ">
-            <button className="flex items-center gap-2 font-semibold text-[14px] rounded-lg">
+            <Link to={"/settings"} className="flex items-center gap-2 font-semibold text-[14px] rounded-lg">
               <IoSettingsOutline className="size-5" />
               Settings
-            </button>
+            </Link>
             <Link to={'/profile'} className={`btn btn-sm flex gap-2 items-center rounded-lg`}>
               {' '}
               <LuUser className="size-5" />

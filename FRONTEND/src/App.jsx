@@ -1,23 +1,31 @@
 import Navbar from './components/Navbar';
 import { Suspense, lazy, useEffect } from 'react';
-import { Navigate, Route, Routes} from 'react-router-dom';
+import { themeChange } from 'theme-change';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import ErrorFallback from './utils/ErrorFallback';
 import { ErrorBoundary } from 'react-error-boundary';
-import {Toaster} from "react-hot-toast"
+import { Toaster } from 'react-hot-toast';
 import useAuthStore from './store/useAuthStore';
 import { Loader } from './utils/Loader';
+import { useThemeStore } from './store/useThemeStore';
 
 function App() {
   const { authUser, isLoading, checkAuth } = useAuthStore();
+  const { theme } = useThemeStore();
+
   // console.log(authUser);
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
+  useEffect(() => {
+    document.querySelector('html').setAttribute('data-theme', theme);
+  }, [theme]);
+
   if (isLoading && !authUser) {
     return (
       <div className="flex flex-col justify-center items-center h-screen">
-          <Loader />
+        <Loader />
       </div>
     );
   }
@@ -58,7 +66,7 @@ function App() {
               element={authUser ? <SettingsPage /> : <Navigate to="/login" />}
             />
           </Routes>
-          <Toaster/>
+          <Toaster />
         </Suspense>
       </ErrorBoundary>
     </>

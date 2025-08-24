@@ -29,15 +29,7 @@ const ProfilePage = () => {
   //  preview ke liye optional
   // const preview = URL.createObjectURL(file);
 
-  // const formData = new FormData();
-  // formData.append('profilePic', file);
 
-  // try {
-  //   await updateProfile(formData);
-  //   // make sure updateProfile is API call (backend -> Cloudinary -> DB)
-  // } catch (err) {
-  //
-  // }
 
   return (
     <div className="h-screen pl-20 ">

@@ -40,7 +40,7 @@ const signupUser = async (req, res) => {
 
     const savedUser = await authModel.create(newUser);  // add new user in mongoDB
     // console.log(savedUser);
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: "User Registered Successfully",
       id: savedUser._id,
@@ -51,7 +51,7 @@ const signupUser = async (req, res) => {
     })
 
   } catch (err) {
-    res.status(500).json(genarateErrors("Server Errors", err));
+    return res.status(500).json(genarateErrors("Server Errors", err));
   }
 }
 
@@ -69,12 +69,12 @@ const loginUser = async (req, res, next) => {
     const isComparePassword = await comparePassword(password, user.password); // compare the password
     // console.log(isComparePassword);
     if (!isComparePassword) {
-      res.status(400).json({
+      return res.status(400).json({
         success: false,
         message: "Invalid Credentials"
       });
     }
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Login Successfully",
       id: user._id,
@@ -85,19 +85,19 @@ const loginUser = async (req, res, next) => {
     })
   }
   catch (err) {
-    res.status(500).json(genarateErrors("Server Error", err));
+    return res.status(500).json(genarateErrors("Server Error", err));
   }
 }
 
 const logoutUser = async (req, res) => {
   try {
     res.cookie("jwt", "", { maxAge: 0 });
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Logout Successfully"
     })
   } catch (error) {
-    res.status(500).json(genarateErrors("Server Error", err))
+    return res.status(500).json(genarateErrors("Server Error", error))
   }
 }
 
@@ -115,14 +115,14 @@ const updateProfile = async (req, res) => {
     const uploadFile = await cloudinary.uploader.upload(profilePic); // upload image in cloudinary
     // console.log("uploaded file -------------------------", uploadFile);
     const updateUser = await authModel.findByIdAndUpdate(id, { profilePic: uploadFile.secure_url }, { new: true });
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "profile image uploaded successfully",
       result: updateUser
     })
   } catch (error) {
     console.error("updateProfile error:", error); // full object
-    res.status(500).json(genarateErrors("Server Error", error));
+    return res.status(500).json(genarateErrors("Server Error", error));
   }
 }
 
